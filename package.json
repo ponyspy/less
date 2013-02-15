@@ -1,0 +1,23 @@
+{
+  "name": "less",
+  "version": "0.0.0",
+  "description": "less ====",
+  "main": "app.js",
+  "dependencies": {
+    "express": "~3.1.0",
+    "mongoose": "~3.5.6",
+    "jade": "~0.28.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ponyspy/less.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "81dce11764bce942bd3ce0b3bc51a3d22d9fd86c"
+}
