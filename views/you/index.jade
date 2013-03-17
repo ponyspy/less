@@ -3,3 +3,9 @@ extends ../layout
 block content
 	.content
 		.courses_block
+			- for (var item in items)
+				b= items[item].title
+				br
+				b= items[item].date
+
+				

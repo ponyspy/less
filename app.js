@@ -162,9 +162,11 @@ app.post('/courses/:course/:id', function (req, res) {
 
   User.findOne({ 'login': login, 'pass': password }, function (err, person) {
     Course.findById(id, function(err, item) {
-      person.items.push({
-        title: post.title,
-        description: post.description
+      console.log(item);
+      console.log(person);
+      person.items.push(item);
+      person.save(function() {
+        res.redirect('back');
       });
     });
   });
@@ -184,7 +186,13 @@ app.post('/courses/:course/:id', function (req, res) {
 });
 
 app.get('/you', function (req, res) {
-  res.render('you');
+  var login = req.session.login;
+  var password = req.session.pass;
+
+
+  User.findOne({ 'login': login, 'pass': password }, function (err, person) {
+    res.render('you', {items: person.items});
+  });
 });
 
 app.get('/auth', checkAuth, function(req, res) {
