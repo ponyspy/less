@@ -25,18 +25,11 @@ app.configure(function(){
 
 mongoose.connect('localhost', 'test');
 
-var dateSchema = new Schema({
-  year: Number,
-  month: String,
-  day: Number
-});
-
-var couseSchema = new Schema({
+var itemSchema = new Schema({
   title: String,
   description: String,
-  cathegory: String,
-  date: [dateSchema],
-  created: {type: Date, default: Date.now},
+  date: {type: Date, default: Date.now},
+  img: String
 });
 
 var UserSchema = new Schema({
@@ -45,12 +38,12 @@ var UserSchema = new Schema({
   pass: String,
   email: String,
   date: {type: Date, default: Date.now},
-  items: [couseSchema]
+  items: [itemSchema]
 });
 
 
 var User = mongoose.model('User', UserSchema);
-var Course = mongoose.model('Item', couseSchema);
+// var Item = mongoose.model('Item', itemSchema);
 /*
 var user = new User();
 user.name = 'foo';
@@ -65,13 +58,6 @@ user.save(function(err) {
 */
 // 1 рассинхрон загрузки файла с очередью БД
 
-// var course = new Course();
-// course.title = 'Cool';
-// course.description = 'ZOZOOZOZOZ';
-// course.cathegory = 'two';
-// course.save(function() {
-//   console.log('course created');
-// });
 
 
 function checkAuth(req, res, next) {
@@ -98,13 +84,12 @@ app.get('/', function(req, res){
 app.post('/', function (req, res) {
   var post = req.body;
 
-  User.findOne({ 'login': post.login, 'pass': post.password }, function (err, person) {
+  User.findOne({ 'name': post.user, 'pass': post.password }, function (err, person) {
     if (err) return handleError(err);
     if (person) {
       req.session.user_id = '4786242642'; 
-      req.session.login = person.login;
-      req.session.pass = person.pass;
-      req.session.name = person.name;
+      req.session.user = post.user;
+      req.session.pass = post.password;
       res.redirect('/');
     } else {
       res.render('index', {status: false});
@@ -120,10 +105,8 @@ app.post('/registr', function (req, res) {
   var post = req.body;
   var user = new User();
 
-  user.login = post.login;
-  user.name = post.name;
+  user.name = post.user;
   user.pass = post.password;
-  user.email = post.email;
 
   user.save(function(err) {
     if(err) {
@@ -138,55 +121,6 @@ app.get('/courses', function (req, res) {
   res.render('courses');
 });
 
-app.get('/courses/:course', function (req, res) {
-  Course.find({'cathegory': req.params.course}, function(err, course) {
-    if (!course)
-      res.redirect('/');
-    res.render('course', {course: course});
-  });
-});
-
-app.get('/courses/:course/:id', function (req, res) {
-  var id = req.params.id;
-  Course.findById(id, function(err, item) {
-    res.render('item', {item: item});
-  });
-});
-
-app.post('/courses/:course/:id', function (req, res) {
-  var id = req.params.id;
-  var post = req.body;
-  var login = req.session.login;
-  var password = req.session.pass;
-
-
-  User.findOne({ 'login': login, 'pass': password }, function (err, person) {
-    Course.findById(id, function(err, item) {
-      person.items.push({
-        title: post.title,
-        description: post.description
-      });
-    });
-  });
-
-// console.log(login);
-// console.log(pass);
-//   User.findOne({'login':login, 'pass':pass}, function(err, user) {
-//     Course.findById(id, function(err, item) {
-//       // user.items.push({
-//       //   title: item.title,
-//       //   description: item.description
-//       // });
-//     // console.log(user);
-//     });
-//     console.log(user);
-//   });
-});
-
-app.get('/you', function (req, res) {
-  res.render('you');
-});
-
 app.get('/auth', checkAuth, function(req, res) {
   res.render('auth');
 });
@@ -197,32 +131,39 @@ app.get('/auth/add', checkAuth, function(req, res) {
 
 app.post('/auth/add', function(req, res) {
   var post = req.body;
-  var course = new Course();
+  var user = req.session.user;
+  var pass = req.session.pass;
+  var path;
 
-  course.title = post.title;
-  course.description = post.description;
-  course.cathegory = post.cathegory;
-  course.date.push({
-    year: post.year,
-    month: post.month,
-    day: post.day
+  fs.readdir(__dirname + '/public/img/', function(err, files) {
+    var imgName = files.length || 0;
+
+    if (req.files.img1.type == 'image/jpeg') {
+      path ='/img/' + imgName + '.jpg';
+      fs.rename(req.files.img1.path, __dirname + '/public' + path);
+
+    User.findOne({'name': user, 'pass': pass}, function(err, user) {
+      user.items.push({
+        title: post.title,
+        description: post.description,
+        img: path
+      });
+
+      user.save(function(err) {
+        if(err) {
+          throw err;
+        }
+        console.log('New item created');
+        res.redirect('/auth/view');
+      });
+    });
+    
+    } else {
+      fs.unlink(req.files.img1.path);
+    }
   });
-  course.save(function() {
-    console.log('New course created');
-    res.redirect('/auth');
-  });
+// *1*
 });
-
-
-
-
-
-
-
-
-
-
-
 
 app.get('/auth/edit/:item', checkAuth, function(req, res) {
   var itemID = req.params.item;
@@ -292,9 +233,8 @@ app.post('/auth/view/:item', function(req, res) {
 
 app.get('/logout', function (req, res) {
   delete req.session.user_id;
-  delete req.session.login;
+  delete req.session.user;
   delete req.session.pass;
-  delete req.session.name;
   res.redirect('/');
 });
 

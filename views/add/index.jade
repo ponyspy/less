@@ -1,21 +1,48 @@
 extends ../layout
 
 block content
-	h2 Добавить
-	form(action="/auth/add", method="post", enctype="multipart/form-data")
-		|Название:
-		br
-		input(type="text", name="title")
-		br
-		br
-		|Описание:
-		br
-		textarea(name="description", cols="40", rows="3")
-		br
-		br
-		|Изображение:
-		br
-		input(type="file", name="img1")
-		br
-		br
-		input(type="submit", value="Add")
+	.content
+		.courses_block
+			form(action="/auth/add", method="post", enctype="multipart/form-data")
+				|Название:
+				br
+				input(type="text", name="title")
+				br
+				br
+				|Описание:
+				br
+				textarea(name="description", cols="40", rows="3")
+				br
+				br
+				|Категория:
+				br
+				select(name='cathegory')
+					option Категория
+					option(value='one') One
+					option(value='two') Two
+					option(value='three') Three
+				p ▼
+				br
+				br
+				|Дата:
+				br
+				select(name='year')
+					option &nbsp;&nbsp;&nbsp;Год
+					option(value='2012') 2012
+					option(value='2013') 2013
+				p ▼
+				|&nbsp;&nbsp;&nbsp;&nbsp;
+				select(name='month')
+					option Месяц
+					option(value='01') 01
+					option(value='02') 02
+				p ▼
+				|&nbsp;&nbsp;&nbsp;&nbsp;
+				select(name='day')
+					option &nbsp;День
+					option(value='14') 14
+					option(value='15') 15
+				p ▼
+				br
+				br
+				input(type="submit", value="Add")

@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+	.content
+		.courses_block
+			- for (var item in course)
+				a(href='/courses/' + course[item].cathegory + '/' + course[item]._id) #{item} #{course[item].title}
+				br

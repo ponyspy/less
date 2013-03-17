@@ -1,17 +1,50 @@
 extends ../layout
 
 block content
-	h2= item.title
-	img(src=item.img)
-	br
-	br
-	b= item.description
-	form(id='e_form', action='/auth/view/' + item._id, method='post')
-		input(type='hidden', name='edit', value=item._id) 
-	form(id='d_form', action='/auth/view/' + item._id, method='post')
-		input(type='hidden', name='delete', value=item._id)
-	a(class='edit', href='#') Редактировать
-	|&nbsp;| 
-	a(class='delete', href='#') Удалить
-	br
-	br
+	.content
+		.courses_block
+			h2= item.title
+			b= item.description
+			br
+			br
+			form.f3(action='', method='post')
+				select(name='year')
+					option &nbsp;&nbsp;&nbsp;Год
+					- for (var i in item.date)
+						option(value=item.date[i].year)= item.date[i].year
+						- break
+				p ▼
+				|&nbsp;&nbsp;&nbsp;&nbsp;
+				select(name='month')
+					option Месяц
+					- for (var i in item.date)
+						option(value=item.date[i].month)= item.date[i].month
+						- break
+				p ▼
+				|&nbsp;&nbsp;&nbsp;&nbsp;
+				select(name='day')
+					option &nbsp;День
+					- for (var i in item.date)
+						option(value=item.date[i].day)= item.date[i].day
+						- break
+				p ▼
+				br
+				br
+				br
+				.submit_btn
+					.submit_btn_text Отправить
+
+	//- h2= item.title
+	//- img(src=item.img)
+	//- br
+	//- br
+	//- b= item.description
+	//- form(id='e_form', action='/auth/view/' + item._id, method='post')
+	//- 	input(type='hidden', name='edit', value=item._id) 
+	//- form(id='d_form', action='/auth/view/' + item._id, method='post')
+	//- 	input(type='hidden', name='delete', value=item._id)
+	//- a(class='edit', href='#') Редактировать
+	//- |&nbsp;| 
+	//- a(class='delete', href='#') Удалить
+	//- br
+	//- br

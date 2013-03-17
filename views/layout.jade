@@ -2,6 +2,30 @@ html
 	head
 		include header
 	body
-		include main
-		div.content
-			block content
+		.main
+			.bg
+				.head
+					.head_text
+						| ПРИВЕТ ПРИВЕТ!
+				.flags
+					a(href='/rus')
+						img.flag(src='/img/design/rus.png')
+					|&nbsp;&nbsp;&nbsp;&nbsp;
+					a(href='/eng')
+						img.flag(src='/img/design/eng.gif')
+				- if (session.user_id)
+					.auth= session.name
+						|&nbsp;|&nbsp;
+						a(href='/logout') Выход
+				block content
+				.select
+					a.select_text(href='/courses') ВЫБОР КУРСА
+				- if (session.user_id)
+					.you
+						a.you_text(href='/you') ВАШИ КУРСЫ
+				img.cloud(src='/img/design/cloud.png')
+				.cie
+					.cie_text
+						| На основе курса
+						br
+						a(href='http://www.speak-russian.cie.ru', target='_blank') Время говорить по-русски
