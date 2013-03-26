@@ -14,4 +14,6 @@ $(document).ready(function() {
 	$('.delete').click(function() {
 		$('#d_form').submit();
 	});
+	$('.scroll').jScrollPane();
+	$('.scroll_item').jScrollPane();
 });

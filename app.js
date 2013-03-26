@@ -25,18 +25,19 @@ app.configure(function(){
 
 mongoose.connect('localhost', 'test');
 
-var dateSchema = new Schema({
+var scheduleSchema = new Schema({
   year: Number,
   month: String,
   day: Number
 });
 
-var couseSchema = new Schema({
+var courseSchema = new Schema({
   title: String,
   description: String,
+  price: Number,
   cathegory: String,
-  date: [dateSchema],
-  created: {type: Date, default: Date.now},
+  schedule: [scheduleSchema],
+  date: {type: Date, default: Date.now},
 });
 
 var UserSchema = new Schema({
@@ -44,13 +45,14 @@ var UserSchema = new Schema({
   login: String,
   pass: String,
   email: String,
+  status: {type: String, default: 'User'},
   date: {type: Date, default: Date.now},
-  items: [couseSchema]
+  items: [courseSchema]
 });
 
 
 var User = mongoose.model('User', UserSchema);
-var Course = mongoose.model('Item', couseSchema);
+var Course = mongoose.model('Item', courseSchema);
 /*
 var user = new User();
 user.name = 'foo';
@@ -76,14 +78,17 @@ user.save(function(err) {
 
 function checkAuth(req, res, next) {
   if (!req.session.user_id) {
-    res.send('You are not authorized to view this page');
+    res.redirect('/registr');
   } else {
     next();
   }
 }
 
 app.get('/', function(req, res){
-  res.render('index');
+  if (req.session.user_id)
+    res.redirect('/courses')
+  else
+    res.render('index');
 });
 
 // app.get('/login', function(req, res){
@@ -101,15 +106,21 @@ app.post('/', function (req, res) {
   User.findOne({ 'login': post.login, 'pass': post.password }, function (err, person) {
     if (err) return handleError(err);
     if (person) {
-      req.session.user_id = '4786242642'; 
-      req.session.login = person.login;
-      req.session.pass = person.pass;
+      req.session.user_id = person._id; 
+      req.session.status = person.status;
       req.session.name = person.name;
       res.redirect('/');
     } else {
       res.render('index', {status: false});
     }
   });
+});
+
+app.get('/logout', function (req, res) {
+  delete req.session.user_id;
+  delete req.session.status;
+  delete req.session.name;
+  res.redirect('/');
 });
 
 app.get('/registr', function(req, res) {
@@ -140,8 +151,6 @@ app.get('/courses', function (req, res) {
 
 app.get('/courses/:course', function (req, res) {
   Course.find({'cathegory': req.params.course}, function(err, course) {
-    if (!course)
-      res.redirect('/');
     res.render('course', {course: course});
   });
 });
@@ -153,50 +162,33 @@ app.get('/courses/:course/:id', function (req, res) {
   });
 });
 
-app.post('/courses/:course/:id', function (req, res) {
+app.post('/courses/:course/:id', checkAuth, function (req, res) {
   var id = req.params.id;
   var post = req.body;
-  var login = req.session.login;
-  var password = req.session.pass;
+  var userID = req.session.user_id;
 
 
-  User.findOne({ 'login': login, 'pass': password }, function (err, person) {
+  User.findById(userID, function (err, person) {
     Course.findById(id, function(err, item) {
-      console.log(item);
-      console.log(person);
       person.items.push(item);
       person.save(function() {
         res.redirect('back');
       });
     });
   });
-
-// console.log(login);
-// console.log(pass);
-//   User.findOne({'login':login, 'pass':pass}, function(err, user) {
-//     Course.findById(id, function(err, item) {
-//       // user.items.push({
-//       //   title: item.title,
-//       //   description: item.description
-//       // });
-//     // console.log(user);
-//     });
-//     console.log(user);
-//   });
 });
 
 app.get('/you', function (req, res) {
-  var login = req.session.login;
-  var password = req.session.pass;
+  var userID = req.session.user_id;
 
-
-  User.findOne({ 'login': login, 'pass': password }, function (err, person) {
+  User.findById(userID, function (err, person) {
     res.render('you', {items: person.items});
   });
 });
 
 app.get('/auth', checkAuth, function(req, res) {
-  res.render('auth');
+  if (req.session.status == 'User')
+    res.render('auth');
 });
 
 app.get('/auth/add', checkAuth, function(req, res) {
@@ -210,7 +202,8 @@ app.post('/auth/add', function(req, res) {
   course.title = post.title;
   course.description = post.description;
   course.cathegory = post.cathegory;
-  course.date.push({
+  course.price = post.price;
+  course.schedule.push({
     year: post.year,
     month: post.month,
     day: post.day
@@ -221,7 +214,9 @@ app.post('/auth/add', function(req, res) {
   });
 });
 
-
+app.get('/contacts', function (req, res) {
+  res.render('contacts');
+});
 
 
 
@@ -296,18 +291,6 @@ app.post('/auth/view/:item', function(req, res) {
   else if (post.edit) {
     res.redirect('/auth/edit/' + post.edit);
   }
-});
-
-app.get('/logout', function (req, res) {
-  delete req.session.user_id;
-  delete req.session.login;
-  delete req.session.pass;
-  delete req.session.name;
-  res.redirect('/');
-});
-
-app.get('/links', function (req, res) {
-  res.render('links');
 });
 
 app.get('/history', function (req, res) {

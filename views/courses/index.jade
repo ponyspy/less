@@ -3,8 +3,17 @@ extends ../layout
 block content
 	.content
 		.courses_block
-			a(href='/courses/one') One
-			br
-			a(href='/courses/two') Two
-			br
-			a(href='/courses/three') Three
+			.title
+				h2 Что вас интересует?
+			.scroll
+				ol
+					li
+						a.list(href='/courses/one') Проблемы фонетики
+					li
+						a.list(href='/courses/two') Методика обучения по курсу "Время говорить по-русски!"
+					li
+						a.list(href='/courses/three') Занятия по выбранным урокам курса с использованием дополнительных учебных материалов
+					li
+						a.list(href='/courses/four') Как правильно по-русски
+					li
+						a.list(href='/courses/five') Разговорная практика по следующим темам страноведения

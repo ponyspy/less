@@ -1,13 +1,21 @@
 extends ../layout
 
 block content
-	.registr
+	.registr_block
 		form.f2(action='/registr', method='post')
-			.i_block
-				input(type='text', name='login', value='john')
-				input(type='text', name='password', value='pass')
-				input(type='text', name='name', value='johny')
-				input(type='text', name='email', value='email@mail.com')
+			.registr_input_block
+				|Логин:
+				input.ip_registr(type='text', name='login', value='john')
+				br
+				|Пароль:
+				input.ip_registr(type='text', name='password', value='pass')
+				br
+				|Имя:
+				br
+				input.ip_registr(type='text', name='name', value='johny')
+				br
+				|Email:
+				input.ip_registr(type='text', name='email', value='email@mail.com')
 		img.cow(src='/img/design/cow.png')
 		.r_btn
 				a.r_btn_text(href='#') Зарегистрироваться

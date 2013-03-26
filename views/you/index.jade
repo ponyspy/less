@@ -3,9 +3,16 @@ extends ../layout
 block content
 	.content
 		.courses_block
-			- for (var item in items)
-				b= items[item].title
-				br
-				b= items[item].date
-
-				
+			.title
+				h2 Расписание
+			.scroll
+				- if (!items)
+					b У вас нет курсов
+				- else
+					ol
+						each item in items
+							li= item.title + ' '
+							each date in item.schedule
+								b= date.day + '.' + date.month + '.' + date.year
+							br
+							br

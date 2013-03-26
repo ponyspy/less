@@ -4,15 +4,18 @@ block content
   .form
     form.f1(action='/', method='post')
       .i_block
-        | Логин:
-        input(type='text', name='login', value='john')
-        | Пароль:
+        .i_block_text
+          |&nbsp;&nbsp;Логин:
+          br
+          br
+          |Пароль:
+        input.ip_auth(type='text', name='login', value='john')
         br
-        input(type='text', name='password', value='pass')
+        input.ip_auth(type='text', name='password', value='pass')
         br
         br
         .submit
           .submit_text ВОЙТИ
   img.logo(src='/img/design/logo.png')
   .arrow
-    a.r_text(href='/registr') ЗАРЕГИСТРИРОВАТЬСЯ
+    a.r_text(href='/registr') зарегистрироваться
