@@ -5,31 +5,42 @@ block content
 		.courses_block
 			.title
 				h2= item.title
-			.scroll_item= item.description
+			//- .scroll_item= item.description
+			|Выберите дату:
+			br
 			br
 			form.f3(action='', method='post')
 				select(name='year')
 					option &nbsp;&nbsp;&nbsp;Год
 					- for (var i in item.schedule)
-						option(value=item.schedule[i].year)= item.schedule[i].year
-						- break
+						- if (item.schedule[i].year)
+							option(value=item.schedule[i].year)= item.schedule[i].year
 				p ▼
 				|&nbsp;&nbsp;&nbsp;&nbsp;
 				select(name='month')
 					option Месяц
 					- for (var i in item.schedule)
-						option(value=item.schedule[i].month)= item.schedule[i].month
-						- break
+						- if (item.schedule[i].month)
+							option(value=item.schedule[i].month)= item.schedule[i].month
 				p ▼
 				|&nbsp;&nbsp;&nbsp;&nbsp;
 				select(name='day')
 					option &nbsp;День
 					- for (var i in item.schedule)
-						option(value=item.schedule[i].day)= item.schedule[i].day
-						- break
+						- if (item.schedule[i].day)
+							option(value=item.schedule[i].day)= item.schedule[i].day
 				p ▼
+				br
+				br
+				br
+				|Итоговая цена:
+				br
+				br
 				.price
-					b= item.price
+					b= item.price + ' Рублей'
+				br
+				|Нажимая на кнопку Вы принимаете...
+				br
 				.submit_btn
 					a.submit_btn_text(href='#') Отправить
 

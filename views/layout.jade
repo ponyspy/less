@@ -12,26 +12,52 @@ html
 							|Выберите тему консультации и удобное время - 
 							br
 							|преподаватели центра международного образования МГУ им. Ломоносовва проконсультируют Вас.
-				.flags
-					a(href='/rus')
-						img.flag(src='/img/design/rus.png')
-					|&nbsp;&nbsp;&nbsp;&nbsp;
-					a(href='/eng')
-						img.flag(src='/img/design/eng.gif')
+				//- .flags
+				//- 	a(href='/rus')
+				//- 		img.flag(src='/img/design/rus.png')
+				//- 	|&nbsp;&nbsp;&nbsp;&nbsp;
+				//- 	a(href='/eng')
+				//- 		img.flag(src='/img/design/eng.gif')
 				- if (session.user_id)
 					.auth= session.name
 						|&nbsp;|&nbsp;
 						a(href='/logout') Выход
+				- else
+					.auth
+						a(href='/') Вход
+						|&nbsp;|&nbsp;
+						a(href='/registr') Регистрация
 				block content
-				.select
-					a.select_text(href='/courses') ВЫБОР КУРСА
-				- if (session.user_id)
-					.you
-						a.you_text(href='/you') ВАШИ КУРСЫ
+				.menu
+					- if (menu == 'courses')
+						.item.select
+							a.item_text(href='/courses') ВЫБОР КУРСА
+					- else
+						.item.courses
+							a.item_text(href='/courses') ВЫБОР КУРСА						
+					- if (session.user_id)
+						- if (menu == 'you')
+							.item.select
+								a.item_text(href='/you') ВАШИ КУРСЫ
+						- else
+							.item.you
+								a.item_text(href='/you') ВАШИ КУРСЫ							
+					- if (menu == 'contacts')
+						.item.select
+							a.item_text(href='/contacts') КОНТАКТЫ
+					- else
+						.item.contacts
+							a.item_text(href='/contacts') КОНТАКТЫ
+					- if (menu == 'about')
+						.item.select
+							a.item_text(href='/about') О ПРОГРАММЕ
+					- else
+						.item.about
+							a.item_text(href='/about') О ПРОГРАММЕ						
 				img.cloud(src='/img/design/cloud.png')
 				a(href='http://www.speak-russian.cie.ru', target='_blank')
 					.cie
 						.cie_text
-							| На основе курса2
+							| На основе курса
 							br
 							b Время говорить по-русски

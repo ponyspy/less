@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+	.content
+		.courses_block
+			.title
+				h2 Расписание
+			.scroll
+				ol
+					each item in items
+						li
+							a(href='schedule/' + item._id)= item.title

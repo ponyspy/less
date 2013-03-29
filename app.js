@@ -18,6 +18,7 @@ app.configure(function(){
   //...
   app.use(function(req, res, next){
     res.locals.session = req.session;
+    res.locals.menu = null;
     next();
   });
   //...
@@ -45,6 +46,7 @@ var UserSchema = new Schema({
   login: String,
   pass: String,
   email: String,
+  skype: String,
   status: {type: String, default: 'User'},
   date: {type: Date, default: Date.now},
   items: [courseSchema]
@@ -130,11 +132,20 @@ app.get('/registr', function(req, res) {
 app.post('/registr', function (req, res) {
   var post = req.body;
   var user = new User();
+  var regMail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+
 
   user.login = post.login;
   user.name = post.name;
   user.pass = post.password;
-  user.email = post.email;
+  // !!!!!!!!!
+  if (regMail.test(post.email)) {
+    user.email = post.email;
+  }
+  else {
+    res.redirect('/');
+  }
+  user.skype = post.skype;
 
   user.save(function(err) {
     if(err) {
@@ -146,16 +157,22 @@ app.post('/registr', function (req, res) {
 });
 
 app.get('/courses', function (req, res) {
+  res.locals({menu:'courses'});
+
   res.render('courses');
 });
 
 app.get('/courses/:course', function (req, res) {
+  res.locals({menu:'courses'});
+
   Course.find({'cathegory': req.params.course}, function(err, course) {
     res.render('course', {course: course});
   });
 });
 
 app.get('/courses/:course/:id', function (req, res) {
+  res.locals({menu:'courses'});
+
   var id = req.params.id;
   Course.findById(id, function(err, item) {
     res.render('item', {item: item});
@@ -166,8 +183,7 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   var id = req.params.id;
   var post = req.body;
   var userID = req.session.user_id;
-
-
+  // !!!!!!!!!!!!!
   User.findById(userID, function (err, person) {
     Course.findById(id, function(err, item) {
       person.items.push(item);
@@ -179,6 +195,7 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
 });
 
 app.get('/you', function (req, res) {
+  res.locals({menu:'you'});
   var userID = req.session.user_id;
 
   User.findById(userID, function (err, person) {
@@ -189,6 +206,8 @@ app.get('/you', function (req, res) {
 app.get('/auth', checkAuth, function(req, res) {
   if (req.session.status == 'User')
     res.render('auth');
+  else
+    res.render('error');
 });
 
 app.get('/auth/add', checkAuth, function(req, res) {
@@ -214,10 +233,62 @@ app.post('/auth/add', function(req, res) {
   });
 });
 
+app.get('/auth/schedule', checkAuth, function(req, res) {
+  Course.find({}, function(err, items) {
+    res.render('schedule', {items: items});
+  });
+});
+
+app.get('/auth/schedule/:id', checkAuth, function(req, res) {
+  var id = req.params.id;
+
+  Course.findById(id, function(err, course) {
+    res.render('edit_schedule', {course: course});
+  });
+});
+
+app.post('/auth/schedule/:id', checkAuth, function(req, res) {
+  var id = req.params.id;
+  var post = req.body;
+
+  Course.findById(id, function(err, course) {
+    course.schedule.push({
+      year: post.year,
+      month: post.month,
+      day: post.day
+    });
+    console.log(course);
+    course.save(function() {
+      console.log('New schedule add');
+      res.redirect('/auth');
+    });
+  });
+});
+
+
+app.get('/buy', checkAuth, function (req, res) {
+  var userID = req.session.user_id;
+
+  User.findById(userID, function(err, person) {
+    res.render('buy', {name: person.name});
+  });
+});
+
+app.get('/error', function (req, res) {
+  res.render('error');
+});
+
 app.get('/contacts', function (req, res) {
+  res.locals({menu:'contacts'});
+
   res.render('contacts');
 });
 
+app.get('/about', function (req, res) {
+  res.locals({menu:'about'});
+
+  res.render('about');
+});
 
 
 
