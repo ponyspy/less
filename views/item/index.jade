@@ -5,45 +5,24 @@ block content
 		.courses_block
 			.title
 				h2= item.title
-			.scroll_item= item.description
+			//- .scroll_item= item.description
+			|Выберите дату:
+			br
 			br
 			form.f3(action='', method='post')
-				select(name='year')
-					option &nbsp;&nbsp;&nbsp;Год
-					- for (var i in item.schedule)
-						option(value=item.schedule[i].year)= item.schedule[i].year
-						- break
+				select(name='date')
+					option Расписание
+					each i in item.schedule
+						option(value=i)=i
 				p ▼
-				|&nbsp;&nbsp;&nbsp;&nbsp;
-				select(name='month')
-					option Месяц
-					- for (var i in item.schedule)
-						option(value=item.schedule[i].month)= item.schedule[i].month
-						- break
-				p ▼
-				|&nbsp;&nbsp;&nbsp;&nbsp;
-				select(name='day')
-					option &nbsp;День
-					- for (var i in item.schedule)
-						option(value=item.schedule[i].day)= item.schedule[i].day
-						- break
-				p ▼
+				br
+				br
+				br
+				|Итоговая цена:
+				br
+				br
 				.price
-					b= item.price
+					b= item.price + ' Рублей'
+				br
 				.submit_btn
 					a.submit_btn_text(href='#') Отправить
-
-	//- h2= item.title
-	//- img(src=item.img)
-	//- br
-	//- br
-	//- b= item.description
-	//- form(id='e_form', action='/auth/view/' + item._id, method='post')
-	//- 	input(type='hidden', name='edit', value=item._id) 
-	//- form(id='d_form', action='/auth/view/' + item._id, method='post')
-	//- 	input(type='hidden', name='delete', value=item._id)
-	//- a(class='edit', href='#') Редактировать
-	//- |&nbsp;| 
-	//- a(class='delete', href='#') Удалить
-	//- br
-	//- br
