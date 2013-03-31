@@ -26,18 +26,12 @@ app.configure(function(){
 
 mongoose.connect('localhost', 'test');
 
-var scheduleSchema = new Schema({
-  year: Number,
-  month: String,
-  day: Number
-});
-
 var courseSchema = new Schema({
   title: String,
   description: String,
   price: Number,
   cathegory: String,
-  schedule: [scheduleSchema],
+  schedule: [String],
   date: {type: Date, default: Date.now},
 });
 
@@ -186,7 +180,12 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   // !!!!!!!!!!!!!
   User.findById(userID, function (err, person) {
     Course.findById(id, function(err, item) {
-      person.items.push(item);
+      console.log(item);
+
+      person.items.push({
+        title: item.title,
+        schedule: post.date
+      });
       person.save(function() {
         res.redirect('back');
       });
@@ -203,17 +202,20 @@ app.get('/you', function (req, res) {
   });
 });
 
+// ok
 app.get('/auth', checkAuth, function(req, res) {
-  if (req.session.status == 'User')
+  if (req.session.status == 'Admin')
     res.render('auth');
   else
     res.render('error');
 });
 
+// ok
 app.get('/auth/add', checkAuth, function(req, res) {
   res.render('add');
 });
 
+// ok
 app.post('/auth/add', function(req, res) {
   var post = req.body;
   var course = new Course();
@@ -222,11 +224,7 @@ app.post('/auth/add', function(req, res) {
   course.description = post.description;
   course.cathegory = post.cathegory;
   course.price = post.price;
-  course.schedule.push({
-    year: post.year,
-    month: post.month,
-    day: post.day
-  });
+  course.schedule.push(post.day + '.' + post.month + '.' + post.year);
   course.save(function() {
     console.log('New course created');
     res.redirect('/auth');
@@ -252,11 +250,7 @@ app.post('/auth/schedule/:id', checkAuth, function(req, res) {
   var post = req.body;
 
   Course.findById(id, function(err, course) {
-    course.schedule.push({
-      year: post.year,
-      month: post.month,
-      day: post.day
-    });
+    course.schedule.push(post.day + '.' + post.month + '.' + post.year);
     console.log(course);
     course.save(function() {
       console.log('New schedule add');
@@ -274,99 +268,110 @@ app.get('/buy', checkAuth, function (req, res) {
   });
 });
 
+// ok
 app.get('/error', function (req, res) {
   res.render('error');
 });
 
+// ok
 app.get('/contacts', function (req, res) {
   res.locals({menu:'contacts'});
 
   res.render('contacts');
 });
 
+// ok
 app.get('/about', function (req, res) {
   res.locals({menu:'about'});
 
   res.render('about');
 });
 
-
-
-
-
-
-
-
-
-app.get('/auth/edit/:item', checkAuth, function(req, res) {
-  var itemID = req.params.item;
-  var user = req.session.user;
-  var pass = req.session.pass;
-
-  User.findOne({'name': user, 'pass': pass}, function(err, user) {
-    var doc = user.items.id(itemID);
-    if (doc) {
-      res.render('edit', {item: doc});
-    } else {
-      res.redirect('/auth/view');
-    }
-  });
-});
-
-app.post('/auth/edit/:item', function(req, res) {
-  var post = req.body;
-  var itemID = req.params.item;
-  var user = req.session.user;
-  var pass = req.session.pass;
-
-  User.findOne({'name': user, 'pass': pass}, function(err, user) {
-    var title = user.items.id(itemID).title = post.title;
-    var description = user.items.id(itemID).description = post.description;
-    user.save();
-    res.redirect('/auth/view');
-  });
-});
-
 app.get('/auth/view', checkAuth, function(req, res) {
-  var user = req.session.user;
-  var pass = req.session.pass;
+  var id = req.session.user_id;
 
-  User.findOne({'name': user, 'pass': pass}, function(err, user) {
-    res.render('view', {items:user.items});
+  User.find({}, function(err, users) {
+    res.render('view', {users: users});
   });
 });
 
-app.get('/auth/view/:item', checkAuth, function(req, res) {
-  var user = req.session.user;
-  var pass = req.session.pass;
-
-  User.findOne({'name': user, 'pass': pass}, function(err, user) {
-    doc = user.items.id(req.params.item);
-    res.render('item', {item:doc});
-  });
+app.get('*', function(req, res){
+  res.render('error');
 });
 
-app.post('/auth/view/:item', function(req, res) {
-  var post = req.body;
-  var user = req.session.user;
-  var pass = req.session.pass;
 
-  if (post.delete) {
-    User.findOne({'name': user, 'pass': pass}, function(err, user) {
-      fs.unlink(__dirname + '/public' + user.items.id(post.delete).img);
-      doc = user.items.id(post.delete).remove();
-      user.save();
-      res.redirect('/auth/view');
-    });
-  }
-  else if (post.edit) {
-    res.redirect('/auth/edit/' + post.edit);
-  }
-});
 
-app.get('/history', function (req, res) {
-  res.render('history');
-});
+
+
+// app.get('/auth/edit/:item', checkAuth, function(req, res) {
+//   var itemID = req.params.item;
+//   var user = req.session.user;
+//   var pass = req.session.pass;
+
+//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
+//     var doc = user.items.id(itemID);
+//     if (doc) {
+//       res.render('edit', {item: doc});
+//     } else {
+//       res.redirect('/auth/view');
+//     }
+//   });
+// });
+
+// app.post('/auth/edit/:item', function(req, res) {
+//   var post = req.body;
+//   var itemID = req.params.item;
+//   var user = req.session.user;
+//   var pass = req.session.pass;
+
+//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
+//     var title = user.items.id(itemID).title = post.title;
+//     var description = user.items.id(itemID).description = post.description;
+//     user.save();
+//     res.redirect('/auth/view');
+//   });
+// });
+
+// app.get('/auth/view', checkAuth, function(req, res) {
+//   var user = req.session.user;
+//   var pass = req.session.pass;
+
+//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
+//     res.render('view', {items:user.items});
+//   });
+// });
+
+// app.get('/auth/view/:item', checkAuth, function(req, res) {
+//   var user = req.session.user;
+//   var pass = req.session.pass;
+
+//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
+//     doc = user.items.id(req.params.item);
+//     res.render('item', {item:doc});
+//   });
+// });
+
+// app.post('/auth/view/:item', function(req, res) {
+//   var post = req.body;
+//   var user = req.session.user;
+//   var pass = req.session.pass;
+
+//   if (post.delete) {
+//     User.findOne({'name': user, 'pass': pass}, function(err, user) {
+//       fs.unlink(__dirname + '/public' + user.items.id(post.delete).img);
+//       doc = user.items.id(post.delete).remove();
+//       user.save();
+//       res.redirect('/auth/view');
+//     });
+//   }
+//   else if (post.edit) {
+//     res.redirect('/auth/edit/' + post.edit);
+//   }
+// });
+
+// app.get('/history', function (req, res) {
+//   res.render('history');
+// });
 
 app.listen(3000);
 console.log('http://127.0.0.1:3000')
