@@ -80,8 +80,8 @@ select {
     /*background-color: #8CCDF1;*/
 }
 p { display: inline; margin-left: -30px;}
-.submit_btn {width: 60%; height: 20%; position: absolute; top: 280px; left: 70px; cursor: pointer; background: url(/img/design/submit.png) no-repeat; background-size: 100%;}
+.submit_btn {width: 60%; height: 20%; position: absolute; top: 280px; left: 100px; cursor: pointer; background: url(/img/design/submit.png) no-repeat; background-size: 100%;}
 .submit_btn_text {top: 15px; left: 70px; position: relative; color: white;}
-.f3 {/*background-color: #8CCDF1;*/ border: 3px solid #8CCDF1; top: 10px; width: 160px; height: 25px;}
+.f3 {/*background-color: #8CCDF1;*/ border: 3px solid #8CCDF1; top: 10px; width: 143px; height: 25px;}
 .scroll_item {width: 500px; height: 140px; position: relative; top: 10px; font-size: 16px;}
 .price {border: 3px solid red; color: red; font-size: 16px; width: 100px; text-align: center;}

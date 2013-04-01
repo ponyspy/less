@@ -49,27 +49,6 @@ var UserSchema = new Schema({
 
 var User = mongoose.model('User', UserSchema);
 var Course = mongoose.model('Item', courseSchema);
-/*
-var user = new User();
-user.name = 'foo';
-user.pass = 'bar';
-user.items.push({title:'Macbook', description:'Apple Computer', img:'img1.jpg'});
-
-user.save(function(err) {
-  if (err) { throw err;}
-  console.log('User created');
-  //mongoose.disconnect();
-});
-*/
-// 1 рассинхрон загрузки файла с очередью БД
-
-// var course = new Course();
-// course.title = 'Cool';
-// course.description = 'ZOZOOZOZOZ';
-// course.cathegory = 'two';
-// course.save(function() {
-//   console.log('course created');
-// });
 
 
 function checkAuth(req, res, next) {
@@ -86,15 +65,6 @@ app.get('/', function(req, res){
   else
     res.render('index');
 });
-
-// app.get('/login', function(req, res){
-//   if (req.session.user_id == '4786242642') {
-//     res.redirect('/');
-//   }
-//   else {
-//     res.render('login', {status: true});
-//   }
-// });
 
 app.post('/', function (req, res) {
   var post = req.body;
@@ -299,79 +269,6 @@ app.get('*', function(req, res){
   res.render('error');
 });
 
-
-
-
-
-// app.get('/auth/edit/:item', checkAuth, function(req, res) {
-//   var itemID = req.params.item;
-//   var user = req.session.user;
-//   var pass = req.session.pass;
-
-//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
-//     var doc = user.items.id(itemID);
-//     if (doc) {
-//       res.render('edit', {item: doc});
-//     } else {
-//       res.redirect('/auth/view');
-//     }
-//   });
-// });
-
-// app.post('/auth/edit/:item', function(req, res) {
-//   var post = req.body;
-//   var itemID = req.params.item;
-//   var user = req.session.user;
-//   var pass = req.session.pass;
-
-//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
-//     var title = user.items.id(itemID).title = post.title;
-//     var description = user.items.id(itemID).description = post.description;
-//     user.save();
-//     res.redirect('/auth/view');
-//   });
-// });
-
-// app.get('/auth/view', checkAuth, function(req, res) {
-//   var user = req.session.user;
-//   var pass = req.session.pass;
-
-//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
-//     res.render('view', {items:user.items});
-//   });
-// });
-
-// app.get('/auth/view/:item', checkAuth, function(req, res) {
-//   var user = req.session.user;
-//   var pass = req.session.pass;
-
-//   User.findOne({'name': user, 'pass': pass}, function(err, user) {
-//     doc = user.items.id(req.params.item);
-//     res.render('item', {item:doc});
-//   });
-// });
-
-// app.post('/auth/view/:item', function(req, res) {
-//   var post = req.body;
-//   var user = req.session.user;
-//   var pass = req.session.pass;
-
-//   if (post.delete) {
-//     User.findOne({'name': user, 'pass': pass}, function(err, user) {
-//       fs.unlink(__dirname + '/public' + user.items.id(post.delete).img);
-//       doc = user.items.id(post.delete).remove();
-//       user.save();
-//       res.redirect('/auth/view');
-//     });
-//   }
-//   else if (post.edit) {
-//     res.redirect('/auth/edit/' + post.edit);
-//   }
-// });
-
-// app.get('/history', function (req, res) {
-//   res.render('history');
-// });
 
 app.listen(3000);
 console.log('http://127.0.0.1:3000')
