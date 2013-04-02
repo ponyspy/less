@@ -147,17 +147,16 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   var id = req.params.id;
   var post = req.body;
   var userID = req.session.user_id;
-  // !!!!!!!!!!!!!
+
   User.findById(userID, function (err, person) {
     Course.findById(id, function(err, item) {
-      console.log(item);
 
       person.items.push({
         title: item.title,
         schedule: post.date
       });
       person.save(function() {
-        res.redirect('back');
+        res.redirect('/you');
       });
     });
   });
