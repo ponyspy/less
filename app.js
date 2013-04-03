@@ -147,6 +147,18 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   var post = req.body;
   var userID = req.session.user_id;
 
+  Course.find({"schedule": post.date}, function(err, dates) {
+    dates.forEach(function(date) {
+      // date.remove();
+      for (var i in date.schedule) {
+        if (date.schedule[i] == post.date) {
+          date.schedule.splice(i,1);
+          date.save();
+        }
+      }
+    });
+  });
+
   User.findById(userID, function (err, person) {
     Course.findById(id, function(err, item) {
 
@@ -186,10 +198,10 @@ app.post('/auth/add', function(req, res) {
   var course = new Course();
 
   course.title = post.title;
-  course.description = post.description;
+  // course.description = post.description;
   course.cathegory = post.cathegory;
   course.price = post.price;
-  course.schedule.push(post.day + '.' + post.month + '.' + post.year);
+  // course.schedule.push(post.day + '.' + post.month + '.' + post.year);
   course.save(function() {
     console.log('New course created');
     res.redirect('/auth');

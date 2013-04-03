@@ -3,6 +3,8 @@ extends ../layout
 block content
 	.content
 		.courses_block
+			.title
+				h2 Добавить
 			form(action="/auth/add", method="post", enctype="multipart/form-data")
 				|Название:
 				br
@@ -16,7 +18,7 @@ block content
 				//- br
 				|Цена:
 				br
-				input(type="text", name="price")
+				input(type="text", name="price", value='500')
 				br
 				br
 				|Категория:
@@ -31,33 +33,33 @@ block content
 				p ▼
 				br
 				br
-				|Дата:
-				br
-				select(name='year')
-					option &nbsp;&nbsp;&nbsp;Год
-					option(value='2013') 2013
-					option(value='2014') 2014
-				p ▼
-				|&nbsp;&nbsp;&nbsp;&nbsp;
-				select(name='month')
-					option Месяц
-					- for (var i = 1; i<13; i++) {
-						if (i<=9)
-							option(value='0'+i) 0#{i}
-						else
-							option(value=i) #{i}
-					- }
-				p ▼
-				|&nbsp;&nbsp;&nbsp;&nbsp;
-				select(name='day')
-					option &nbsp;День
-					- for (var i = 1; i<32; i++) {
-						if (i<=9)
-							option(value='0'+i) 0#{i}
-						else
-							option(value=i) #{i}
-					- }
-				p ▼
+				//- |Дата:
+				//- br
+				//- select(name='year')
+				//- 	option &nbsp;&nbsp;&nbsp;Год
+				//- 	option(value='2013') 2013
+				//- 	option(value='2014') 2014
+				//- p ▼
+				//- |&nbsp;&nbsp;&nbsp;&nbsp;
+				//- select(name='month')
+				//- 	option Месяц
+				//- 	- for (var i = 1; i<13; i++) {
+				//- 		if (i<=9)
+				//- 			option(value='0'+i) 0#{i}
+				//- 		else
+				//- 			option(value=i) #{i}
+				//- 	- }
+				//- p ▼
+				//- |&nbsp;&nbsp;&nbsp;&nbsp;
+				//- select(name='day')
+				//- 	option &nbsp;День
+				//- 	- for (var i = 1; i<32; i++) {
+				//- 		if (i<=9)
+				//- 			option(value='0'+i) 0#{i}
+				//- 		else
+				//- 			option(value=i) #{i}
+				//- 	- }
+				//- p ▼
 				br
 				br
 				input(type="submit", value="Добавить")
