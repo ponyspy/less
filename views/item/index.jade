@@ -11,9 +11,12 @@ block content
 			br
 			form.f3(action='', method='post')
 				select(name='date')
-					each i in item.schedule
-						option(value=i)=i
-				p ▼
+					- if (item.schedule == '')
+						option занятий нет
+					- else
+						each i in item.schedule
+							option(value=i)=i
+					p ▼
 				br
 				br
 				br
@@ -23,5 +26,6 @@ block content
 				.price
 					b= item.price + ' Рублей'
 				br
-				.submit_btn
-					a.submit_btn_text(href='#') Отправить
+				- if (item.schedule != '')
+					.submit_btn
+						a.submit_btn_text(href='#') Отправить

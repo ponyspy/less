@@ -4,9 +4,17 @@ block content
 	.content
 		.courses_block
 			.title
-				h2 Редактировать			
-			a(href='/auth/add') Добавить курс
+				h2 Администрирование
+			b Добавить:
+			br			
+			a(href='/auth/add') курс
+			|&nbsp;|&nbsp;
+			a(href='/auth/schedule') расписание
 			br
-			a(href='/auth/schedule') Расписание
 			br
-			a(href='/auth/view') Просмотр заказов
+			b Редактировать:
+			br
+			br
+			b Журнал:
+			br
+			a(href='/auth/view') заказы
