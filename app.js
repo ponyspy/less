@@ -52,20 +52,18 @@ var Course = mongoose.model('Item', courseSchema);
 
 
 function checkAuth(req, res, next) {
-  if (!req.session.user_id) {
-    res.redirect('/registr');
-  } else {
+  if (req.session.user_id)
     next();
-  }
+  else
+    res.redirect('/registr');
 }
 
-// function checkEmail (req, res, next) {
-//   var regMail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-//   if (regMail.test(req.body.email))
-//     next();
-//   else
-//     res.redirect('/registr', {valid: 'email'});
-// }
+function checkAdmin (req, res, next) {
+  if (req.session.status == 'Admin')
+    next();
+  else
+    res.render('error');
+}
 
 app.get('/', function(req, res){
   if (req.session.user_id)
@@ -173,15 +171,12 @@ app.get('/you', function (req, res) {
 });
 
 // ok
-app.get('/auth', checkAuth, function(req, res) {
-  if (req.session.status == 'Admin')
-    res.render('auth');
-  else
-    res.render('error');
+app.get('/auth', checkAdmin, function(req, res) {
+  res.render('auth');
 });
 
 // ok
-app.get('/auth/add', checkAuth, function(req, res) {
+app.get('/auth/add', checkAdmin, function(req, res) {
   res.render('add');
 });
 
@@ -201,13 +196,13 @@ app.post('/auth/add', function(req, res) {
   });
 });
 
-app.get('/auth/schedule', checkAuth, function(req, res) {
+app.get('/auth/schedule', checkAdmin, function(req, res) {
   Course.find({}, function(err, items) {
     res.render('schedule', {items: items});
   });
 });
 
-app.get('/auth/schedule/:id', checkAuth, function(req, res) {
+app.get('/auth/schedule/:id', checkAdmin, function(req, res) {
   var id = req.params.id;
 
   Course.findById(id, function(err, course) {
@@ -228,7 +223,6 @@ app.post('/auth/schedule/:id', checkAuth, function(req, res) {
     });
   });
 });
-
 
 app.get('/buy', checkAuth, function (req, res) {
   var userID = req.session.user_id;

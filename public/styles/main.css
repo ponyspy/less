@@ -78,6 +78,7 @@ select {
     border: 0;
     padding-right: 30px;
     font-size: 18px;
+    outline:none;
     /*background-color: #8CCDF1;*/
 }
 p { display: inline; margin-left: -30px;}

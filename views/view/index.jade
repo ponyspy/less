@@ -6,4 +6,7 @@ block content
 			.title
 				h2 Заказы
 			each user in users
-				b= user
+				b= user.name
+				br
+				//- each i in user.schedule
+				//- 	b= i
