@@ -24,6 +24,12 @@ app.configure(function(){
   //...
 });
 
+
+// -------------------
+// *** Model Block ***
+// -------------------
+
+
 mongoose.connect('localhost', 'test');
 
 var courseSchema = new Schema({
@@ -46,9 +52,13 @@ var UserSchema = new Schema({
   items: [courseSchema]
 });
 
-
 var User = mongoose.model('User', UserSchema);
 var Course = mongoose.model('Item', courseSchema);
+
+
+// ------------------------
+// *** Middleware Block ***
+// ------------------------
 
 
 function checkAuth(req, res, next) {
@@ -64,6 +74,12 @@ function checkAdmin (req, res, next) {
   else
     res.render('error');
 }
+
+
+// ------------------
+// *** Main Block ***
+// ------------------
+
 
 app.get('/', function(req, res){
   if (req.session.user_id)
@@ -119,6 +135,21 @@ app.post('/registr', function (req, res) {
   });
 });
 
+app.get('/you', function (req, res) {
+  res.locals({menu:'you'});
+  var userID = req.session.user_id;
+
+  User.findById(userID, function (err, person) {
+    res.render('you', {items: person.items});
+  });
+});
+
+
+// --------------------
+// *** Course Block ***
+// --------------------
+
+
 app.get('/courses', function (req, res) {
   res.locals({menu:'courses'});
 
@@ -126,11 +157,17 @@ app.get('/courses', function (req, res) {
 });
 
 app.get('/courses/:course', function (req, res) {
-  res.locals({menu:'courses'});
+  var courseExp = /fon|methods|lessons|translate|country/
 
-  Course.find({'cathegory': req.params.course}, function(err, course) {
-    res.render('course', {course: course});
-  });
+  if (courseExp.test(req.params.course)) {
+    res.locals({menu:'courses'});
+
+    Course.find({'cathegory': req.params.course}, function(err, course) {
+      res.render('course', {course: course});
+    });
+  }
+  else
+    res.render('error');
 });
 
 app.get('/courses/:course/:id', function (req, res) {
@@ -149,7 +186,6 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
 
   Course.find({"schedule": post.date}, function(err, dates) {
     dates.forEach(function(date) {
-      // date.remove();
       for (var i in date.schedule) {
         if (date.schedule[i] == post.date) {
           date.schedule.splice(i,1);
@@ -173,26 +209,20 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   });
 });
 
-app.get('/you', function (req, res) {
-  res.locals({menu:'you'});
-  var userID = req.session.user_id;
 
-  User.findById(userID, function (err, person) {
-    res.render('you', {items: person.items});
-  });
-});
+// -------------------
+// *** Admin block ***
+// -------------------
 
-// ok
+
 app.get('/auth', checkAdmin, function(req, res) {
   res.render('auth');
 });
 
-// ok
 app.get('/auth/add', checkAdmin, function(req, res) {
   res.render('add');
 });
 
-// ok
 app.post('/auth/add', function(req, res) {
   var post = req.body;
   var course = new Course();
@@ -236,6 +266,20 @@ app.post('/auth/schedule/:id', checkAuth, function(req, res) {
   });
 });
 
+app.get('/auth/view', checkAuth, function(req, res) {
+  var id = req.session.user_id;
+
+  User.find({}, function(err, users) {
+    res.render('view', {users: users});
+  });
+});
+
+
+// --------------------
+// *** Statik block ***
+// --------------------
+
+
 app.get('/buy', checkAuth, function (req, res) {
   var userID = req.session.user_id;
 
@@ -244,31 +288,20 @@ app.get('/buy', checkAuth, function (req, res) {
   });
 });
 
-// ok
 app.get('/error', function (req, res) {
   res.render('error');
 });
 
-// ok
 app.get('/contacts', function (req, res) {
   res.locals({menu:'contacts'});
 
   res.render('contacts');
 });
 
-// ok
 app.get('/about', function (req, res) {
   res.locals({menu:'about'});
 
   res.render('about');
-});
-
-app.get('/auth/view', checkAuth, function(req, res) {
-  var id = req.session.user_id;
-
-  User.find({}, function(err, users) {
-    res.render('view', {users: users});
-  });
 });
 
 app.get('*', function(req, res){
