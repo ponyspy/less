@@ -57,6 +57,7 @@ ol {padding-left: 20px;}*/
 .f2 {top: 80px; left: 120px;  position: relative;}
 .registr_input_block {width: 350px; height: 280px; font-size: 18px;}
 .ip_registr {font-size: 18px; width: 350px;}
+label.error {color: red;}
 .cow {width: 25%; height: 25%; position: relative; top: -40px; left: -80px;}
 .r_btn {width: 30%; height: 15%; position: absolute; top: 320px; left: 500px; background: url(/img/design/arrow.png) no-repeat; background-size: 100%;}
 .r_btn_text {position: relative; top: 21px; left: 13px; color: white;}

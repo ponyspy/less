@@ -59,6 +59,14 @@ function checkAuth(req, res, next) {
   }
 }
 
+// function checkEmail (req, res, next) {
+//   var regMail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+//   if (regMail.test(req.body.email))
+//     next();
+//   else
+//     res.redirect('/registr', {valid: 'email'});
+// }
+
 app.get('/', function(req, res){
   if (req.session.user_id)
     res.redirect('/courses')
@@ -77,7 +85,7 @@ app.post('/', function (req, res) {
       req.session.name = person.name;
       res.redirect('/');
     } else {
-      res.render('index', {status: false});
+      res.render('index');
     }
   });
 });
@@ -90,25 +98,18 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/registr', function(req, res) {
-  res.render('registr');
+  res.render('registr', {status: null});
 });
 
 app.post('/registr', function (req, res) {
   var post = req.body;
   var user = new User();
-  var regMail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
 
 
   user.login = post.login;
   user.name = post.name;
   user.pass = post.password;
-  // !!!!!!!!!
-  if (regMail.test(post.email)) {
-    user.email = post.email;
-  }
-  else {
-    res.redirect('/');
-  }
+  user.email = post.email;
   user.skype = post.skype;
 
   user.save(function(err) {
