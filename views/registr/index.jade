@@ -5,20 +5,24 @@ block content
 		form.f2(action='/registr', method='post')
 			.registr_input_block
 				|Логин:
-				input.ip_registr(type='text', name='login', value='john')
+				label.error(for='login')
+				input.ip_registr#login(type='text', name='login')
 				br
 				|Пароль:
-				input.ip_registr(type='text', name='password', value='pass')
+				label.error(for='password')
+				input.ip_registr#password(type='password', name='password')
 				br
 				|Имя:
-				br
-				input.ip_registr(type='text', name='name', value='johny')
+				label.error(for='name')
+				input.ip_registr#name(type='text', name='name')
 				br
 				|Email:
-				input.ip_registr(type='text', name='email', value='email@mail.com')
+				label.error(for='email')
+				input.ip_registr#email(type='email', name='email')
 				br
 				|Skype:
-				input.ip_registr(type='text', name='skype', value='Skype')					
+				label.error(for='skype')
+				input.ip_registr#skype(type='text', name='skype')					
 		img.cow(src='/img/design/cow.png')
 		.r_btn
 				a.r_btn_text(href='#') зарегистрироваться
