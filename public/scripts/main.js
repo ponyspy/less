@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('.submit').click(function() {
+	$('.submit_text').click(function() {
 		$('.f1').submit();
 	});
 	$('.r_btn_text').click(function() {
