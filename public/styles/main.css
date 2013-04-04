@@ -12,15 +12,15 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 
 .main {width: 1200px; height: 600px;}
 .bg {width: 1000px; height: 600px; background: url(/img/design/bg.png) no-repeat; background-size: 100%; margin: 0 auto; position: relative; top: 50px}
-.head {width: 65%; height: 30%; position: absolute; top: -40px; left: -20px; background: url(/img/design/head.png) no-repeat; background-size: 100%;}
+.head {width: 650px; height: 300px; position: absolute; top: -40px; left: -20px; background: url(/img/design/head.png) no-repeat; background-size: 100%;}
 .head_text {top: 0px; left: 50px; color: white; position: relative;}
 .auth {width: 200px; height: 30px; top: -25px; left: 650px; position: absolute;}
 .flags {width: 150px; height: 50; position: absolute; top: -25px; left: 900px;}
 .flag {width: 60px; height: 40px;}
-.logo {width: 60%; position: absolute; top:240px; left: 500px;}
-.cloud {width: 20%; position: absolute; top:50px; left: 860px;}
-.form {width: 30%; height: 30%; position: absolute; top: 200px; left: 250px; background: url(/img/design/form.png) no-repeat; background-size: 100%;}
-.arrow {width: 20%; height: 12%; position: absolute; top: 155px; left: 340px; background: url(/img/design/arrow.png) no-repeat; background-size: 100%;}
+.logo {width: 600px; position: absolute; top:240px; left: 500px;}
+.cloud {width: 180px; position: absolute; top:50px; left: 860px;}
+.form {width: 300px; height: 180px; position: absolute; top: 200px; left: 250px; background: url(/img/design/form.png) no-repeat; background-size: 100%;}
+.arrow {width: 200px; height: 70px; position: absolute; top: 155px; left: 340px; background: url(/img/design/arrow.png) no-repeat; background-size: 100%;}
 .menu {position: absolute; width: 240px; height: 300px; top: 160px; left: 10px;}
 
 .select {margin-top: 10px; background: url(/img/design/select.png) no-repeat; background-size: 100%;}
@@ -30,10 +30,10 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 .contacts {margin-top: 10px; background: url(/img/design/you.png) no-repeat; background-size: 100%;}
 .about {margin-top: 10px; background: url(/img/design/you.png) no-repeat; background-size: 100%;}
 
-.item {width: 80%; height: 20%; position: relative; left: 10px;}
+.item {width: 195px; height: 65px; position: relative; left: 10px;}
 .item_text {position: relative; top: 20px; left: 40px; color:white;}
 
-.cie {width: 20%; height: 20%; position: absolute; top: 500px; left: -30px; background: url(/img/design/cie.png) no-repeat; background-size: 100%;}
+.cie {width: 200px; height: 60px; position: absolute; top: 500px; left: -30px; background: url(/img/design/cie.png) no-repeat; background-size: 100%;}
 .cie_text {position: relative; top: 10px; left: 15px; color: white; font-size: 14px;}
 
 /*
@@ -57,9 +57,9 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 .registr_input_block {width: 350px; height: 280px; font-size: 18px;}
 .ip_registr {font-size: 18px; width: 350px;}
 label.error {color: red;}
-.cow {width: 25%; height: 25%; position: relative; top: -40px; left: -80px;}
-.r_btn {width: 30%; height: 15%; position: absolute; top: 320px; left: 500px; background: url(/img/design/arrow.png) no-repeat; background-size: 100%;}
-.r_btn_text {position: relative; top: 21px; left: 13px; color: white;}
+.cow {width: 160px; height: 110px; position: relative; top: -40px; left: -80px;}
+.r_btn {width: 200px; height: 70px; position: absolute; top: 320px; left: 500px; background: url(/img/design/arrow.png) no-repeat; background-size: 100%;}
+.r_btn_text {position: relative; top: 22px; left: 13px; color: white;}
 
 /*
 	courses block
@@ -81,7 +81,7 @@ select {
     /*background-color: #8CCDF1;*/
 }
 p { display: inline; margin-left: -30px;}
-.submit_btn {width: 60%; height: 20%; position: absolute; top: 280px; left: 100px; cursor: pointer; background: url(/img/design/submit.png) no-repeat; background-size: 100%;}
+.submit_btn {width: 220px; height: 60px; position: absolute; top: 280px; left: 100px; cursor: pointer; background: url(/img/design/submit.png) no-repeat; background-size: 100%;}
 .submit_btn_text {top: 15px; left: 70px; position: relative; color: white;}
 .f3 {/*background-color: #8CCDF1;*/ border: 3px solid #8CCDF1; top: 10px; width: 143px; height: 25px;}
 .scroll_item {width: 500px; height: 140px; position: relative; top: 10px; font-size: 16px;}
