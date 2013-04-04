@@ -112,7 +112,10 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/registr', function(req, res) {
-  res.render('registr', {status: null});
+  if (!req.session.user_id)
+    res.render('registr');
+  else
+    res.redirect('/');
 });
 
 app.post('/registr', function (req, res) {
@@ -127,11 +130,14 @@ app.post('/registr', function (req, res) {
   user.skype = post.skype;
 
   user.save(function(err) {
-    if(err) {
-      throw err;
-    }
+    if(err) {throw err;}
     console.log('New User created');
-    res.redirect('/');
+    User.findOne({ 'login': post.login, 'pass': post.password }, function (err, person) {
+      req.session.user_id = person._id; 
+      req.session.status = person.status;
+      req.session.name = person.name;      
+      res.redirect('/');
+    });
   });
 });
 
