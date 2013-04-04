@@ -6,15 +6,13 @@ block content
 			.title
 				h2 Расписание
 			.scroll
-				- for(item in items)
-					- if (item.hasOwnProperty(title))
-						ol
-							each item in items
-								li= item.title + ' '
-								each date in item.schedule
-									b= date
-								br
-								br
-						- break				
-					- else
-						b У вас нет курсов
+				- if (items)
+					ol
+						each item in items
+							li= item.title + ' '
+							each date in item.schedule
+								b= date
+							br
+							br		
+				- else
+					b У вас нет курсов
