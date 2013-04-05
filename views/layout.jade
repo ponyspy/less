@@ -20,6 +20,9 @@ html
 				//- 		img.flag(src='/img/design/eng.gif')
 				- if (session.user_id)
 					.auth= session.name
+						- if (session.status == 'Admin')
+							|&nbsp;|&nbsp;
+							a(href='/auth') Звездочет
 						|&nbsp;|&nbsp;
 						a(href='/logout') Выход
 				- else
