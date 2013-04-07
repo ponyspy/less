@@ -10,11 +10,11 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 	index block
 */
 
-.main {border:1px solid black; width: 100%; height: 100%; margin: 0 auto;}
-.bg {border:1px solid black; width: 80%; height: 96%; background: url(/img/design/bg.png) no-repeat; background-size: 100%; margin: 0 auto; position: relative; top: 50px}
-.head {border:1px solid black; width: 65%; height: 30%; position: absolute; top: -40px; left: -20px; background: url(/img/design/head.png) no-repeat; background-size: 100%;}
-.head_text {border:1px solid black; width: 520px; left: 50px; color: white; position: relative;}
-.auth {border:1px solid black; width: 180px; height: 30px; top: -25px; left: 650px; position: absolute;}
+.main {width: 1200px; height: 600px;}
+.bg {width: 1000px; height: 600px; background: url(/img/design/bg.png) no-repeat; background-size: 100%; margin: 0 auto; position: relative; top: 50px}
+.head {width: 650px; height: 300px; position: absolute; top: -40px; left: -20px; background: url(/img/design/head.png) no-repeat; background-size: 100%;}
+.head_text {top: 0px; left: 50px; color: white; position: relative;}
+.auth {width: 180px; height: 30px; top: -25px; left: 650px; position: absolute;}
 .flags {width: 150px; height: 50; position: absolute; top: -25px; left: 900px;}
 .flag {width: 60px; height: 40px;}
 .logo {width: 600px; position: absolute; top:240px; left: 500px;}
@@ -34,7 +34,7 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 .item_text {position: relative; top: 20px; left: 40px; color:white;}
 
 .cie {width: 200px; height: 60px; position: absolute; top: 500px; left: -30px; background: url(/img/design/cie.png) no-repeat; background-size: 100%;}
-.cie_text {width: 170px; position: relative; top: 10px; left: 15px; color: white; font-size: 14px;}
+.cie_text {position: relative; top: 10px; left: 15px; color: white; font-size: 14px;}
 
 /*
 	index block auth
@@ -65,7 +65,7 @@ label.error {color: red;}
 	courses block
 */
 
-.content {border:1px solid black; width: 85%; height: 75%; position: absolute; top: 130px; left: 250px; background: url(/img/design/content.png) no-repeat; background-size: 100%;}
+.content {width: 900px; height: 450px; position: absolute; top: 130px; left: 270px; background: url(/img/design/content.png) no-repeat; background-size: 95%;}
 .courses_block {top: 40px; left: 60px; width: 360px; height: 300px; position: relative;}
 
 /*
