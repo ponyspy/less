@@ -10,10 +10,10 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 	index block
 */
 
-.main {width: 1200px; height: 600px;}
+.main {margin: 0 auto; width: 1200px; height: 600px;}
 .bg {width: 1000px; height: 600px; background: url(/img/design/bg.png) no-repeat; background-size: 100%; margin: 0 auto; position: relative; top: 50px}
 .head {width: 650px; height: 300px; position: absolute; top: -40px; left: -20px; background: url(/img/design/head.png) no-repeat; background-size: 100%;}
-.head_text {top: 0px; left: 50px; color: white; position: relative;}
+.head_text {width: 500px; height: 150px; top: 5px; left: 50px; color: white; position: relative;}
 .auth {width: 180px; height: 30px; top: -25px; left: 650px; position: absolute;}
 .flags {width: 150px; height: 50; position: absolute; top: -25px; left: 900px;}
 .flag {width: 60px; height: 40px;}
@@ -34,7 +34,7 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 .item_text {position: relative; top: 20px; left: 40px; color:white;}
 
 .cie {width: 200px; height: 60px; position: absolute; top: 500px; left: -30px; background: url(/img/design/cie.png) no-repeat; background-size: 100%;}
-.cie_text {position: relative; top: 10px; left: 15px; color: white; font-size: 14px;}
+.cie_text {width: 170px; height: 35x; position: relative; top: 10px; left: 15px; color: white; font-size: 14px;}
 
 /*
 	index block auth
@@ -65,7 +65,7 @@ label.error {color: red;}
 	courses block
 */
 
-.content {width: 900px; height: 450px; position: absolute; top: 130px; left: 270px; background: url(/img/design/content.png) no-repeat; background-size: 95%;}
+.content {width: 850px; height: 450px; position: absolute; top: 130px; left: 270px; background: url(/img/design/content.png) no-repeat; background-size: 100%;}
 .courses_block {top: 40px; left: 60px; width: 360px; height: 300px; position: relative;}
 
 /*
