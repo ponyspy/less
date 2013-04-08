@@ -13,7 +13,8 @@ body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 .main {margin: 0 auto; width: 1200px; height: 600px;}
 .bg {width: 1000px; height: 600px; background: url(/img/design/bg.png) no-repeat; background-size: 100%; margin: 0 auto; position: relative; top: 50px}
 .head {width: 650px; height: 300px; position: absolute; top: -40px; left: -20px; background: url(/img/design/head.png) no-repeat; background-size: 100%;}
-.head_text {width: 500px; height: 150px; top: 5px; left: 50px; color: white; position: relative;}
+.head_text {width: 500px; height: 150px; top: 20px; left: 50px; color: white; position: relative;}
+.head_text_title {font-size: 24px; font-weight: bold;}
 .auth {width: 180px; height: 30px; top: -25px; left: 650px; position: absolute;}
 .flags {width: 150px; height: 50; position: absolute; top: -25px; left: 900px;}
 .flag {width: 60px; height: 40px;}
