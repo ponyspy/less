@@ -209,7 +209,7 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
         schedule: post.date
       });
       person.save(function() {
-        res.redirect('/you');
+        res.redirect('/buy');
       });
     });
   });
