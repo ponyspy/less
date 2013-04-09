@@ -4,7 +4,7 @@ a {text-decoration:none;}
 body {font-family: 'PT Sans', sans-serif; font-size: 16px;}
 .title {width: 500px; position: relative; color: red;}
 .list {font-size: 18px; color: #3954A5;}
-.scroll {border: 0px solid black; width: 500px; height: 240px; overflow: auto;}
+.scroll {width: 500px; height: 240px; overflow: auto;}
 
 /*
 	index block
@@ -67,7 +67,7 @@ label.error {color: red;}
 */
 
 .content {width: 850px; height: 450px; position: absolute; top: 130px; left: 270px; background: url(/img/design/content.png) no-repeat; background-size: 100%;}
-.courses_block {top: 40px; left: 60px; width: 360px; height: 300px; position: relative;}
+.courses_block {top: 40px; left: 50px; width: 500px; height: 310px; position: relative;}
 
 /*
 	item block
@@ -81,7 +81,7 @@ select {
     outline:none;
     /*background-color: #8CCDF1;*/
 }
-p { display: inline; margin-left: -30px;}
+p.select_date { display: inline; margin-left: -30px;}
 .submit_btn {width: 220px; height: 60px; position: absolute; top: 280px; left: 100px; cursor: pointer; background: url(/img/design/submit.png) no-repeat; background-size: 100%;}
 .submit_btn_text {top: 13px; left: 65px; position: relative; color: white; font-size: 20px;}
 .f3 {/*background-color: #8CCDF1;*/ border: 3px solid #8CCDF1; top: 10px; width: 145px; height: 25px;}
