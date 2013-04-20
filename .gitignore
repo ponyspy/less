@@ -1,6 +1,7 @@
 /node_modules*
 /db*
 /maket*
+/subl*
 /go.txt
 /pay.txt
 /.DS_Store
