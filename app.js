@@ -1,4 +1,5 @@
 var fs = require('fs');
+var jstoxml = require('jstoxml');
 var express = require('express');
     var app = express();
 
@@ -189,30 +190,33 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   var id = req.params.id;
   var post = req.body;
   var userID = req.session.user_id;
+  var name = req.session.name;
 
-  Course.find({"schedule": post.date}, function(err, dates) {
-    dates.forEach(function(date) {
-      for (var i in date.schedule) {
-        if (date.schedule[i] == post.date) {
-          date.schedule.splice(i,1);
-          date.save();
-        }
-      }
-    });
-  });
+  res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + '1' + '&nickname=' + name + '&orderid=' + id + '&nick_extra=' + post.date )
 
-  User.findById(userID, function (err, person) {
-    Course.findById(id, function(err, item) {
+  // Course.find({"schedule": post.date}, function(err, dates) {
+  //   dates.forEach(function(date) {
+  //     for (var i in date.schedule) {
+  //       if (date.schedule[i] == post.date) {
+  //         date.schedule.splice(i,1);
+  //         date.save();
+  //       }
+  //     }
+  //   });
+  // });
 
-      person.items.push({
-        title: item.title,
-        schedule: post.date
-      });
-      person.save(function() {
-        res.redirect('/buy');
-      });
-    });
-  });
+  // User.findById(userID, function (err, person) {
+  //   Course.findById(id, function(err, item) {
+
+  //     person.items.push({
+  //       title: item.title,
+  //       schedule: post.date
+  //     });
+  //     person.save(function() {
+  //       res.redirect('/buy');
+  //     });
+  //   });
+  // });
 });
 
 
@@ -282,7 +286,7 @@ app.get('/auth/view', checkAuth, function(req, res) {
 
 
 // --------------------
-// *** Statik block ***
+// *** Buy block ***
 // --------------------
 
 
@@ -293,6 +297,47 @@ app.get('/buy', checkAuth, function (req, res) {
     res.render('buy', {name: person.name});
   });
 });
+
+app.post('/buy', function (req, res) {
+  var userID = req.session.user_id;
+  var post = req.body;
+  var id = req.body.order_id;
+  var xmlRes = jstoxml.toXML({
+    result: {
+      code: 'YES'
+    }
+  });
+
+  Course.find({"schedule": post.userid_extra}, function(err, dates) {
+    dates.forEach(function(date) {
+      for (var i in date.schedule) {
+        if (date.schedule[i] == post.date) {
+          date.schedule.splice(i,1);
+          date.save();
+        }
+      }
+    });
+  });
+
+  User.findById(userID, function (err, person) {
+    Course.findById(id, function(err, item) {
+
+      person.items.push({
+        title: item.title,
+        schedule: post.date
+      });
+      person.save(function() {
+        res.send(xmlRes);
+      });
+    });
+  });
+});
+
+
+// --------------------
+// *** Statik block ***
+// --------------------
+
 
 app.get('/error', function (req, res) {
   res.render('error');
