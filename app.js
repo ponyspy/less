@@ -33,6 +33,13 @@ app.configure(function(){
 
 mongoose.connect('localhost', 'test');
 
+var orderSchema = new Schema({
+  user_id: String,
+  course_id: String,
+  course_date: String,
+  date: {type: Date, default: Date.now},
+});
+
 var courseSchema = new Schema({
   title: String,
   description: String,
@@ -53,6 +60,7 @@ var UserSchema = new Schema({
   items: [courseSchema]
 });
 
+var Order = mongoose.model('Order', orderSchema);
 var User = mongoose.model('User', UserSchema);
 var Course = mongoose.model('Item', courseSchema);
 
@@ -187,36 +195,17 @@ app.get('/courses/:course/:id', function (req, res) {
 });
 
 app.post('/courses/:course/:id', checkAuth, function (req, res) {
-  var id = req.params.id;
   var post = req.body;
-  var userID = req.session.user_id;
   var name = req.session.name;
+  var order = new Order();
 
-  res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + '1' + '&nickname=' + name + '&orderid=' + id + '&nick_extra=' + post.date )
-
-  // Course.find({"schedule": post.date}, function(err, dates) {
-  //   dates.forEach(function(date) {
-  //     for (var i in date.schedule) {
-  //       if (date.schedule[i] == post.date) {
-  //         date.schedule.splice(i,1);
-  //         date.save();
-  //       }
-  //     }
-  //   });
-  // });
-
-  // User.findById(userID, function (err, person) {
-  //   Course.findById(id, function(err, item) {
-
-  //     person.items.push({
-  //       title: item.title,
-  //       schedule: post.date
-  //     });
-  //     person.save(function() {
-  //       res.redirect('/buy');
-  //     });
-  //   });
-  // });
+  order.course_id = req.params.id;
+  order.user_id = req.session.user_id;
+  order.course_date = post.date;
+  order.save(function(err, order) {
+    if(err) {throw err;}
+    res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + '1' + '&nickname=' + name + '&orderid=' + order._id);
+  }); 
 });
 
 
@@ -299,35 +288,34 @@ app.get('/buy', checkAuth, function (req, res) {
 });
 
 app.post('/buy', function (req, res) {
-  var userID = req.session.user_id;
-  var post = req.body;
-  var id = req.body.order_id;
+  var orderId = req.body.order_id;
   var xmlRes = jstoxml.toXML({
     result: {
       code: 'YES'
     }
   });
-
-  Course.find({"schedule": post.userid_extra}, function(err, dates) {
-    dates.forEach(function(date) {
-      for (var i in date.schedule) {
-        if (date.schedule[i] == post.date) {
-          date.schedule.splice(i,1);
-          date.save();
+  Order.findById(orderId, function(err, order) {
+    Course.find({"schedule": order.course_date}, function(err, dates) {
+      dates.forEach(function(date) {
+        for (var i in date.schedule) {
+          if (date.schedule[i] == order.course_date) {
+            date.schedule.splice(i,1);
+            date.save();
+          }
         }
-      }
-    });
-  });
-
-  User.findById(userID, function (err, person) {
-    Course.findById(id, function(err, item) {
-
-      person.items.push({
-        title: item.title,
-        schedule: post.date
       });
-      person.save(function() {
-        res.send(xmlRes);
+    });
+
+    User.findById(order.user_id, function (err, person) {
+      Course.findById(order.course_id, function(err, item) {
+
+        person.items.push({
+          title: item.title,
+          schedule: order.course_date
+        });
+        person.save(function() {
+          res.send(xmlRes);
+        });
       });
     });
   });
