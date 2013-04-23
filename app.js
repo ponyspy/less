@@ -288,7 +288,7 @@ app.get('/buy', checkAuth, function (req, res) {
 });
 
 app.post('/buy', function (req, res) {
-  var orderId = req.body.order_id;
+  var orderId = req.body.orderid;
   var xmlRes = jstoxml.toXML({
     result: {
       code: 'YES'
