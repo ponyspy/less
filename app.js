@@ -204,7 +204,7 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   order.course_date = post.date;
   order.save(function(err, order) {
     if(err) {throw err;}
-    res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + '1' + '&nickname=' + name + '&orderid=' + order._id);
+    res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + '1' + '&nickname=' + name + '&order_id=' + order._id);
   }); 
 });
 
