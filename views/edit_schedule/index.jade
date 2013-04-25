@@ -18,7 +18,7 @@ block content
 					option &nbsp;&nbsp;&nbsp;Год
 					option(value='2013') 2013
 					option(value='2014') 2014
-				p ▼
+				p.select_date ▼
 				|&nbsp;&nbsp;&nbsp;&nbsp;
 				select(name='month')
 					option Месяц
@@ -28,7 +28,7 @@ block content
 						else
 							option(value=i) #{i}
 					- }
-				p ▼
+				p.select_date ▼
 				|&nbsp;&nbsp;&nbsp;&nbsp;
 				select(name='day')
 					option &nbsp;День
@@ -38,7 +38,7 @@ block content
 						else
 							option(value=i) #{i}
 					- }
-				p ▼
+				p.select_date ▼
 				br
 				br
 				input(type="submit", value="Добавить")

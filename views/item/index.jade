@@ -24,6 +24,7 @@ block content
 				br
 				br
 				.price
+					input(type='hidden', name='price', value=item.price)
 					b= item.price + ' Рублей'
 				br
 				- if (item.schedule != '')

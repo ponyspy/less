@@ -5,25 +5,21 @@ var express = require('express');
 
 var mongoose = require('mongoose');
   var Schema = mongoose.Schema;
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.locals.pretty = true;
 // app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.bodyParser({ keepExtensions: true, uploadDir:__dirname + '/uploads' }));
+app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session({ secret: 'keyboard cat' }));
 app.use(express.static(__dirname + '/public'));
-
-app.configure(function(){
-  //...
-  app.use(function(req, res, next){
-    res.locals.session = req.session;
-    res.locals.menu = null;
-    next();
-  });
-  //...
+app.use(function(req, res, next) {
+  res.locals.session = req.session;
+  res.locals.menu = null;
+  next();
 });
+app.use(app.router);
 
 
 // -------------------
@@ -69,6 +65,15 @@ var Course = mongoose.model('Item', courseSchema);
 // *** Middleware Block ***
 // ------------------------
 
+
+function getRespond (status) {
+  var xml = jstoxml.toXML({
+    result: {
+      code: status
+    }
+  });
+  return xml;
+}
 
 function checkAuth(req, res, next) {
   if (req.session.user_id)
@@ -190,6 +195,9 @@ app.get('/courses/:course/:id', function (req, res) {
 
   var id = req.params.id;
   Course.findById(id, function(err, item) {
+    // if (err) return IdError(err);
+    // if (!item) return IdError(err);
+    if (!item) return res.render('error');
     res.render('item', {item: item});
   });
 });
@@ -204,7 +212,7 @@ app.post('/courses/:course/:id', checkAuth, function (req, res) {
   order.course_date = post.date;
   order.save(function(err, order) {
     if(err) {throw err;}
-    res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + '1' + '&nickname=' + name + '&order_id=' + order._id);
+    res.redirect('https://paymentgateway.ru/?project=5131&source=5131&amount=' + post.price + '&nickname=' + name + '&order_id=' + order._id);
   }); 
 });
 
@@ -265,12 +273,19 @@ app.post('/auth/schedule/:id', checkAuth, function(req, res) {
   });
 });
 
+// !!!!!!!!!!!!!!!
 app.get('/auth/view', checkAuth, function(req, res) {
   var id = req.session.user_id;
+  var users = [];
 
-  User.find({}, function(err, users) {
-    res.render('view', {users: users});
+  Order.find({}, function(err, orders) {
+    orders.forEach(function(order) {
+      User.findById(order.user_id, function(user) {
+        users.push(user);
+      });
+    });
   });
+  res.render('view', {users: users});
 });
 
 
@@ -295,6 +310,7 @@ app.post('/buy', function (req, res) {
     }
   });
   Order.findById(orderId, function(err, order) {
+    if (!order) return res.send(getRespond('NO'));
     Course.find({"schedule": order.course_date}, function(err, dates) {
       dates.forEach(function(date) {
         for (var i in date.schedule) {
@@ -314,7 +330,7 @@ app.post('/buy', function (req, res) {
           schedule: order.course_date
         });
         person.save(function() {
-          res.send(xmlRes);
+          res.send(getRespond('YES'));
         });
       });
     });

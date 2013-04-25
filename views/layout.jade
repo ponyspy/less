@@ -38,14 +38,14 @@ html
 							a.item_text(href='/courses') ВЫБОР КУРСА
 					- else
 						.item.courses
-							a.item_text(href='/courses') ВЫБОР КУРСА						
+							a.item_text(href='/courses') ВЫБОР КУРСА
 					- if (session.user_id)
 						- if (menu == 'you')
 							.item.select
 								a.item_text(href='/you') ВАШИ КУРСЫ
 						- else
 							.item.you
-								a.item_text(href='/you') ВАШИ КУРСЫ							
+								a.item_text(href='/you') ВАШИ КУРСЫ
 					- if (menu == 'contacts')
 						.item.select
 							a.item_text(href='/contacts') КОНТАКТЫ
@@ -57,7 +57,7 @@ html
 							a.item_text(href='/about') О ПРОГРАММЕ
 					- else
 						.item.about
-							a.item_text(href='/about') О ПРОГРАММЕ						
+							a.item_text(href='/about') О ПРОГРАММЕ
 				img.cloud(src='/img/design/cloud.png')
 				a(href='http://www.speak-russian.cie.ru', target='_blank')
 					.cie
