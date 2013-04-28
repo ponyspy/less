@@ -1,4 +1,5 @@
 var fs = require('fs');
+var async = require('async');
 var jstoxml = require('jstoxml');
 var express = require('express');
     var app = express();
@@ -273,19 +274,38 @@ app.post('/auth/schedule/:id', checkAuth, function(req, res) {
   });
 });
 
-// !!!!!!!!!!!!!!!
 app.get('/auth/view', checkAuth, function(req, res) {
-  var id = req.session.user_id;
   var users = [];
 
   Order.find({}, function(err, orders) {
-    orders.forEach(function(order) {
-      User.findById(order.user_id, function(user) {
-        users.push(user);
+    async.forEach(orders, function(order, callback) {
+      User.findById(order.user_id, function(err, user) {
+        Course.findById(order.course_id, function(err, course) {
+          users.push({
+            name: user.name,
+            email: user.email,
+            skype: user.skype,
+            title: course.title,
+            schedule: order.course_date
+          });
+          callback();
+        });
       });
+    }, function() {
+      res.render('view', {users: users});
     });
   });
-  res.render('view', {users: users});
+
+
+  // Order.find({}, function(err, orders) {
+  //   orders.forEach(function(order) {
+  //     User.findById(order.user_id, function(err, user) {
+  //       users.push(user);
+  //     });
+  //   });
+  // });
+
+  // res.render('view', {users: users});
 });
 
 

@@ -5,8 +5,19 @@ block content
 		.courses_block
 			.title
 				h2 Заказы
-			each user in users
-				b= user.name
-				br
-				//- each i in user.schedule
-				//- 	b= i
+			.scroll
+				each user in users
+					b= 'Имя: ' + user.name
+					br
+					b= 'Email: ' + user.email
+					br
+					b= 'Skype: ' + user.skype
+					br
+					b= 'Тема: ' + user.title
+					br
+					b=  'Расписание: ' + user.schedule
+					br
+					br
+					b --------
+					br
+					br
