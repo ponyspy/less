@@ -196,8 +196,6 @@ app.get('/courses/:course/:id', function (req, res) {
 
   var id = req.params.id;
   Course.findById(id, function(err, item) {
-    // if (err) return IdError(err);
-    // if (!item) return IdError(err);
     if (!item) return res.render('error');
     res.render('item', {item: item});
   });
@@ -365,6 +363,10 @@ app.post('/buy', function (req, res) {
 
 app.get('/error', function (req, res) {
   res.render('error');
+});
+
+app.get('/fail', function (req, res) {
+  res.render('fail_buy');
 });
 
 app.get('/contacts', function (req, res) {
