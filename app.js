@@ -312,7 +312,7 @@ app.get('/auth/view', checkAuth, function(req, res) {
 // --------------------
 
 
-app.get('/buy', checkAuth, function (req, res) {
+app.get('/success', checkAuth, function (req, res) {
   var userID = req.session.user_id;
 
   User.findById(userID, function(err, person) {
