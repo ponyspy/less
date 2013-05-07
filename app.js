@@ -320,6 +320,10 @@ app.get('/success', checkAuth, function (req, res) {
   });
 });
 
+app.post('/success', function (req, res) {
+    res.redirect('buy');
+});
+
 app.post('/buy', function (req, res) {
   var orderId = req.body.orderid;
   var xmlRes = jstoxml.toXML({
