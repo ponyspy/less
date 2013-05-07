@@ -321,7 +321,7 @@ app.get('/success', checkAuth, function (req, res) {
 });
 
 app.post('/success', function (req, res) {
-    res.redirect('buy');
+    res.redirect('/success');
 });
 
 app.post('/buy', function (req, res) {
