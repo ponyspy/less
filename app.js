@@ -34,6 +34,7 @@ var orderSchema = new Schema({
   user_id: String,
   course_id: String,
   course_date: String,
+  status: {type: String, default: 'Process'},
   date: {type: Date, default: Date.now},
 });
 
@@ -274,8 +275,8 @@ app.post('/auth/schedule/:id', checkAuth, function(req, res) {
 
 app.get('/auth/view', checkAuth, function(req, res) {
   var users = [];
-
-  Order.find({}, function(err, orders) {
+// check order status!
+  Order.find({'status': 'Success'}, function(err, orders) {
     async.forEach(orders, function(order, callback) {
       User.findById(order.user_id, function(err, user) {
         Course.findById(order.course_id, function(err, course) {
@@ -339,6 +340,8 @@ app.post('/buy', function (req, res) {
           if (date.schedule[i] == order.course_date) {
             date.schedule.splice(i,1);
             date.save();
+            order.status = 'Success';
+            order.save();
           }
         }
       });
@@ -353,6 +356,7 @@ app.post('/buy', function (req, res) {
         });
         person.save(function() {
           res.send(getRespond('YES'));
+          // Order status add!!!
         });
       });
     });
