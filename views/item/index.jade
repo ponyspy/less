@@ -6,7 +6,7 @@ block content
 			.title
 				h2= item.title
 			//- .scroll_item= item.description
-			|Выберите дату:
+			|Choose a day:
 			br
 			br
 			form.f3(action='', method='post')
@@ -20,13 +20,13 @@ block content
 				br
 				br
 				br
-				|Цена:
+				|Price:
 				br
 				br
 				.price
 					input(type='hidden', name='price', value=item.price)
-					b= item.price + ' Рублей'
+					b= item.price + ' RUB'
 				br
 				- if (item.schedule != '')
 					.submit_btn
-						a.submit_btn_text(href='#') оплатить
+						a.submit_btn_text(href='#') Buy
