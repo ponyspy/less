@@ -177,7 +177,7 @@ app.get('/courses', function (req, res) {
 
   res.render('courses');
 });
-
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 app.get('/courses/:course', function (req, res) {
   var courseExp = /fon|methods|lessons|translate|country/
 
