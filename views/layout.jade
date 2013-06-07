@@ -8,11 +8,11 @@ html
 					.head
 						.head_text
 							.head_text_title
-								|Весна 2013  - начинаем учиться дистанционно!
+								|Spring 2013, it’s time to study online!
 							br
-							|Выберите тему консультации и удобное время - 
+							|Choose a topic for your consultation, choose time 
 							br
-							|преподаватели Центра международного образования МГУ им. Ломоносова проконсультируют Вас.
+							|and teachers from the Center for international Education of Lomonosov Moscow State University will answer all your questions.
 				//- .flags
 				//- 	a(href='/rus')
 				//- 		img.flag(src='/img/design/rus.png')
@@ -25,20 +25,20 @@ html
 							|&nbsp;|&nbsp;
 							a(href='/auth') Звездочет
 						|&nbsp;|&nbsp;
-						a(href='/logout') Выход
+						a(href='/logout') Logout
 				- else
 					.auth
-						a(href='/') Вход
+						a(href='/') Sign in 
 						|&nbsp;|&nbsp;
-						a(href='/registr') Регистрация
+						a(href='/registr') Sign Up
 				block content
 				.menu
 					- if (menu == 'courses')
 						.item.select
-							a.item_text(href='/courses') ВЫБОР КУРСА
+							a.item_text(href='/courses') COURSES
 					- else
 						.item.courses
-							a.item_text(href='/courses') ВЫБОР КУРСА
+							a.item_text(href='/courses') COURSES
 					- if (session.user_id)
 						- if (menu == 'you')
 							.item.select
@@ -48,20 +48,20 @@ html
 								a.item_text(href='/you') ВАШИ КУРСЫ
 					- if (menu == 'contacts')
 						.item.select
-							a.item_text(href='/contacts') КОНТАКТЫ
+							a.item_text(href='/contacts') CONTACT US
 					- else
 						.item.contacts
-							a.item_text(href='/contacts') КОНТАКТЫ
+							a.item_text(href='/contacts') CONTACT US
 					- if (menu == 'about')
 						.item.select
-							a.item_text(href='/about') О ПРОГРАММЕ
+							a.item_text(href='/about') ABOUT
 					- else
 						.item.about
-							a.item_text(href='/about') О ПРОГРАММЕ
+							a.item_text(href='/about') ABOUT
 				img.cloud(src='/img/design/cloud.png')
 				a(href='http://www.speak-russian.cie.ru', target='_blank')
 					.cie
 						.cie_text
-							| На основе курса
+							| Based on the course
 							br
-							b Время говорить по-русски
+							b “Time to speak Russian!” 

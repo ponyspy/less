@@ -4,15 +4,15 @@ block content
 	.registr_block
 		form.f2(action='/registr', method='post')
 			.registr_input_block
-				|Логин:
+				|Login:
 				label.error(for='login')
 				input.ip_registr#login(type='text', name='login')
 				br
-				|Пароль:
+				|Password:
 				label.error(for='password')
 				input.ip_registr#password(type='password', name='password')
 				br
-				|Имя:
+				|First name:
 				label.error(for='name')
 				input.ip_registr#name(type='text', name='name')
 				br
@@ -25,4 +25,4 @@ block content
 				input.ip_registr#skype(type='text', name='skype')					
 		img.cow(src='/img/design/cow.png')
 		.r_btn
-				a.r_btn_text(href='#') зарегистрироваться
+				a.r_btn_text(href='#') register
